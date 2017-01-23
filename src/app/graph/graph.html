@@ -1,0 +1,60 @@
+<style>
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+</style>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="panel panel-default">
+        <div class="panel-heading"><b>Data Set</b></div>
+        <div class="panel-body">  
+          <label data-ng-repeat="item in vm.dataSetOptions">
+		    <input type="radio" data-ng-model="vm.dataSet" value="{{item}}" data-ng-change='vm.resetGraph()'>
+		    {{item}}&nbsp;&nbsp;
+		  </label>
+        </div>
+      </div>
+            <div class="panel panel-default">
+        <div class="panel-heading"><b>Algorithm</b></div>
+        <div class="panel-body">
+        <label data-ng-repeat="item in vm.algorithmOptions">
+		    <input type="radio" data-ng-model="vm.algorithm" value="{{item}}" data-ng-change='vm.resetGraph()'>
+		    {{item}}&nbsp;&nbsp;
+		  </label>    
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading"><b>Metric</b></div>
+        <div class="panel-body">  
+        <label data-ng-repeat="item in vm.metricOptions">
+		    <input type="radio" data-ng-model="vm.metric" value="{{item}}" data-ng-change='vm.resetGraph()'>
+		    {{item}}&nbsp;&nbsp;
+		  </label>    
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading"><b>Train/Test</b></div>
+        <div class="panel-body">   
+        <label data-ng-repeat="item in vm.trainTestOptions">
+		    <input type="radio" data-ng-model="vm.trainTest" value="{{item}}" data-ng-change='vm.resetGraph()'>
+		    {{item}}&nbsp;&nbsp;
+		  </label>   
+        </div>
+      </div>
+
+      <!--
+		            //Reuters 005-006 words vector with TF-IDF. Algorithm: KNN (bagging). Metric: Cosine. K=1. Train=75% Test=25%.
+   		-->
+    </div>
+    <div class="col-md-9">
+          <svg width="960" height="500"></svg>
+    </div>
+  </div>
+
+
+

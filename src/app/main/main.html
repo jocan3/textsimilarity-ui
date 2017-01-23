@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading"><b>Currently Processing</b></div>
+        <div class="panel-body">
+         <div data-ng-repeat="item in main.processingItems" data-ng-if="item.status == 'running'">
+              <uib-progressbar class="progress-striped active" value="dynamic" type="info">{{item.description}}</uib-progressbar>
+         </div>    
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading"><b>Parsed Datasets</b></div>
+        <div class="panel-body">
+           <ul class="list-group">
+              <li class="list-group-item" data-ng-repeat="item in main.datasetRepresentations">
+                <span class="badge">{{item.num_documents}}</span>
+                  <img data-ng-if="item.status=='successful'" src="assets/images/check.png"  height="16em" width="16em">
+                  <img data-ng-if="item.status=='running'" src="assets/images/running.svg"  height="16em" width="16em">
+                  <a data-ng-href="http://192.169.150.232/textsimilarity-api/getDocumentsByRepresentationIdCSV/{{item.id}}">{{item.description}}</a>
+              </li>
+          </ul>
+        </div>
+      </div>
+
+   
+    </div>
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading"><b>Experiments</b></div>
+        <div class="panel-body">
+          <ul class="list-group">
+              <li class="list-group-item" data-ng-repeat="exp in main.experiments">
+                <span class="badge">{{exp.num_test_documents}}</span>
+                  <img data-ng-if="exp.status=='successful'" src="assets/images/check.png"  height="16em" width="16em">
+                  <img data-ng-if="exp.status=='running'" src="assets/images/running.svg"  height="16em" width="16em">
+                  <a data-ng-href="http://192.169.150.232/textsimilarity-api/getImputationbyExperimentIdCSV/{{exp.id}}">{{exp.description}}</a>
+              </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

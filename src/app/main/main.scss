@@ -1,0 +1,28 @@
+.glyphicon.fast-right-spinner {
+    -webkit-animation: glyphicon-spin-r 1s infinite linear;
+    animation: glyphicon-spin-r 1s infinite linear;
+}
+
+.glyphicon.normal-right-spinner {
+    -webkit-animation: glyphicon-spin-r 2s infinite linear;
+    animation: glyphicon-spin-r 2s infinite linear;
+}
+
+.glyphicon.slow-right-spinner {
+    -webkit-animation: glyphicon-spin-r 3s infinite linear;
+    animation: glyphicon-spin-r 3s infinite linear;
+}
+
+.glyphicon.fast-left-spinner {
+    -webkit-animation: glyphicon-spin-l 1s infinite linear;
+    animation: glyphicon-spin-l 1s infinite linear;
+}
+
+.glyphicon.normal-left-spinner {
+    -webkit-animation: glyphicon-spin-l 2s infinite linear;
+    animation: glyphicon-spin-l 2s infinite linear;
+}
+
+a:hover {
+    color: blue;
+}
