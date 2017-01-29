@@ -23,6 +23,7 @@
         vm.trainTestOptions = [];
 
         vm.dataSet = "";
+        vm.alpha = "";
         vm.algorithm = "";
         vm.metric = "";
         vm.trainTest = "";
@@ -81,6 +82,14 @@
         }
 
         function resetGraph(){
+                    if (vm.dataSet.indexOf("LDA") === -1){
+                      vm.alpha = "";
+                    }else{
+                      if (vm.alpha === ""){
+                        vm.alpha = vm.alphaOptions[0];
+                      }
+                    }
+
                     svg.selectAll("*").remove();
                     div.transition()    
                           .duration(500)    
@@ -98,6 +107,7 @@
                     draw(
                       vm.experimentResults.filter(function (el) {
                           return el.dataset == vm.dataSet
+                          && el.alpha == vm.alpha
                           && el.metric == vm.metric
                           && el.algorithm == vm.algorithm
                           && el.train_test == vm.trainTest;
@@ -166,11 +176,20 @@
           var algorithmOptions = {};
           var metricOptions = {};
           var trainTestOptions = {};
+          var alphaOptions = {};
           var i = 0;
           for (i = 0; i < vm.experimentResults.length; ++i){
             var tempArray = vm.experimentResults[i].description.split(".");
 
-            vm.experimentResults[i].dataset = tempArray[0];
+            if (tempArray[0].indexOf("LDA") !== -1){
+              vm.experimentResults[i].alpha = tempArray[0].split("Alpha:")[1].substr(0,2);
+              alphaOptions[vm.experimentResults[i].alpha] = vm.experimentResults[i].alpha;
+              tempArray[0] = tempArray[0].replace(" Alpha:"+ vm.experimentResults[i].alpha,"");
+            }else{
+              vm.experimentResults[i].alpha = "";
+            }
+
+            vm.experimentResults[i].dataset = tempArray[0].split("Train:")[0].trim();            
             dataSetOptions[vm.experimentResults[i].dataset] = vm.experimentResults[i].dataset; 
 
             vm.experimentResults[i].algorithm = tempArray[1].replace(" Algorithm: ","");
@@ -195,6 +214,8 @@
           vm.metric = vm.metricOptions[0];
           vm.trainTestOptions = Object.keys(trainTestOptions);
           vm.trainTest = vm.trainTestOptions[0];
+          vm.alphaOptions = Object.keys(alphaOptions);
+          vm.alpha = "";
  
           return Promise.resolve();
         }

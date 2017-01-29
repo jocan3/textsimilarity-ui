@@ -19,6 +19,15 @@
 		  </label>
         </div>
       </div>
+      <div class="panel panel-default" ng-show="vm.dataSet.indexOf('LDA') !== -1">
+          <div class="panel-heading"><b>Alpha</b></div>
+          <div class="panel-body">  
+            <label data-ng-repeat="item in vm.alphaOptions">
+          <input type="radio" data-ng-model="vm.alpha" value="{{item}}" data-ng-change='vm.resetGraph()'>
+          {{item}}&nbsp;&nbsp;
+        </label>
+          </div>
+      </div>
             <div class="panel panel-default">
         <div class="panel-heading"><b>Algorithm</b></div>
         <div class="panel-body">

@@ -8,8 +8,8 @@
   /** @ngInject */
   function databaseFactory($log, $http) {
  // var apiHost = window.location.protocol + '//' + window.location.hostname + '/textsimilarity_dev-api';
-  var apiHost = window.location.protocol + '//' + window.location.hostname + '/textsimilarity-api';
- // var apiHost = 'http://192.169.150.232/textsimilarity_dev-api';
+ // var apiHost = window.location.protocol + '//' + window.location.hostname + '/textsimilarity-api';
+  var apiHost = 'http://192.169.150.232/textsimilarity_dev-api';
    //var apiHost = 'http://192.169.150.232/textsimilarity-api'
 
     var service = {
