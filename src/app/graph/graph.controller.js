@@ -22,13 +22,22 @@
         vm.metricOptions = [];
         vm.trainTestOptions = [];
 
+        vm.selectedLine = "default";
+
         vm.dataSet = "";
         vm.alpha = "";
         vm.algorithm = "";
         vm.metric = "";
         vm.trainTest = "";
 
+        vm.lines = [];
+
         vm.resetGraph = resetGraph;
+        vm.addLine = addLine;
+        vm.changeLineOptions = changeLineOptions;
+        vm.saveLine = saveLine;
+        vm.deleteLine = deleteLine;
+        vm.reset = reset;
 
         vm.isActive = function (viewLocation) { 
                         console.log($location.path());
@@ -105,13 +114,7 @@
                           height = +svg.attr("height") - margin.top - margin.bottom,
                           g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
                     draw(
-                      vm.experimentResults.filter(function (el) {
-                          return el.dataset == vm.dataSet
-                          && el.alpha == vm.alpha
-                          && el.metric == vm.metric
-                          && el.algorithm == vm.algorithm
-                          && el.train_test == vm.trainTest;
-                        })
+                      vm.experimentResults
                       );
         }
 
@@ -145,30 +148,63 @@
                   .style("text-anchor", "end")
                   .text("Accuracy");
 
-              g.append("path")
-                  .datum(data)
-                  .attr("class", "line")
-                  .attr("d", line);
+              var color =  d3.scaleOrdinal(d3.schemeCategory20);
+              var c = 0;
+              vm.lines.forEach(function(value){
+                    line = d3.line()
+                      .x(function(d) {
+                          return x(d.k);
+                      })
+                      .y(function(d) {
+                          return y(d[value.variable]);
+                      });
 
-              // Add the scatterplot
-              g.selectAll("dot")  
-                  .data(data)     
-              .enter().append("circle")               
-                  .attr("r", 5)   
-                  .attr("cx", function(d) { return x(d.k); })     
-                  .attr("cy", function(d) { return y(d.accuracy); })   
-                  .on("click", function(d) { 
+                    g.append("path")
+                    .datum(data.filter(
+                      function(el) {
+                        return el.dataset == value.dataSet
+                          && el.alpha == value.alpha
+                          && el.metric == value.metric
+                          && el.algorithm == value.algorithm
+                          && el.train_test == value.trainTest;
+
+                      }))
+                    .attr("class", "line")
+                    .attr("d", line)
+                    .style("stroke", color(c))
+                    .on("click", function(d) { 
+                        vm.selectedLine = c;
+                      });
+
+                    g.selectAll("dot")  
+                    .data(data.filter(
+                      function(el) {
+                        return el.dataset == value.dataSet
+                          && el.alpha == value.alpha
+                          && el.metric == value.metric
+                          && el.algorithm == value.algorithm
+                          && el.train_test == value.trainTest;
+
+                      }))
+                    .enter().append("circle")               
+                        .attr("r", 7)   
+                        .attr("cx", function(d) { return x(d.k); })     
+                        .attr("cy", function(d) { return y(d[value.variable]); })
+                        .on("click", function(d) { 
                       div.transition()    
                           .duration(500)    
                           .style("opacity", 0);    
                       div.transition()    
                           .duration(200)    
                           .style("opacity", .9);    
-                      div .html(d.description + ". Accuracy=" + d.accuracy)  
+                      div .html(d.description + ". " + value.variable + "=" + d[value.variable])  
                           .style("left", (d3.event.pageX) + "px")   
                           .style("top", (d3.event.pageY - 28) + "px");  
                       });
+                        ++c;
 
+              })
+                  
         }
 
         function parseExperimentDescription(){
@@ -216,8 +252,67 @@
           vm.trainTest = vm.trainTestOptions[0];
           vm.alphaOptions = Object.keys(alphaOptions);
           vm.alpha = "";
- 
+          vm.variable = 'accuracy';
+
           return Promise.resolve();
+        }
+
+        function addLine(){
+          vm.lines.push({
+              value: vm.lines.length,
+              name: vm.dataSet + ' ' + vm.alpha + ' ' +  vm.algorithm + ' ' + vm.metric + ' ' + vm.trainTest + ' ' + vm.variable,
+              dataSet : vm.dataSet,
+              alpha: vm.alpha,
+              algorithm: vm.algorithm,
+              metric: vm.metric,
+              trainTest: vm.trainTest,
+              variable: vm.variable
+
+          });
+
+          vm.selectedLine = (vm.lines.length - 1) + "";
+          resetGraph();
+        }
+
+        function saveLine(){
+          if (vm.selectedLine !== 'default'){
+            var current = vm.lines[vm.selectedLine];
+            current.name = vm.dataSet + ' ' + vm.alpha + ' ' +  vm.algorithm + ' ' + vm.metric + ' ' + vm.trainTest + ' ' + vm.variable;
+            current.dataSet = vm.dataSet;
+            current.alpha = vm.alpha;
+            current.algorithm = vm.algorithm;
+            current.metric = vm.metric;
+            current.trainTest = vm.trainTest;
+            current.variable = vm.variable;
+            resetGraph();
+          }
+        }
+
+
+        function deleteLine(){
+          if (vm.selectedLine !== 'default'){
+            vm.lines.splice(vm.selectedLine,1);
+            vm.selectedLine = 'default';
+            resetGraph();
+          }
+        }
+
+        function reset(){
+            vm.lines = [];
+            vm.selectedLine = 'default';
+            resetGraph();
+        }
+
+        function changeLineOptions(){
+          if (vm.selectedLine !== 'default'){
+              var current = vm.lines[vm.selectedLine];
+              vm.dataSet = current.dataSet;
+              vm.alpha = current.alpha;
+              vm.algorithm = current.algorithm;
+              vm.metric = current.metric;
+              vm.trainTest = current.trainTest;
+              vm.variable = current.variable;
+           }
         }
 
         

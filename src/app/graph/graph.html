@@ -11,10 +11,23 @@
   <div class="row">
     <div class="col-md-3">
       <div class="panel panel-default">
+        <div class="panel-heading"><b>Variable</b></div>
+        <div class="panel-body">  
+          <label>
+        <input type="radio" data-ng-model="vm.variable" value="accuracy" >
+        accuracy&nbsp;&nbsp;
+      </label>
+      <label >
+        <input type="radio" data-ng-model="vm.variable" value="precision" >
+        precision&nbsp;&nbsp;
+      </label>
+        </div>
+      </div>
+      <div class="panel panel-default">
         <div class="panel-heading"><b>Data Set</b></div>
         <div class="panel-body">  
           <label data-ng-repeat="item in vm.dataSetOptions">
-		    <input type="radio" data-ng-model="vm.dataSet" value="{{item}}" data-ng-change='vm.resetGraph()'>
+		    <input type="radio" data-ng-model="vm.dataSet" value="{{item}}"  data-ng-change="vm.resetGraph()">
 		    {{item}}&nbsp;&nbsp;
 		  </label>
         </div>
@@ -23,7 +36,7 @@
           <div class="panel-heading"><b>Alpha</b></div>
           <div class="panel-body">  
             <label data-ng-repeat="item in vm.alphaOptions">
-          <input type="radio" data-ng-model="vm.alpha" value="{{item}}" data-ng-change='vm.resetGraph()'>
+          <input type="radio" data-ng-model="vm.alpha" value="{{item}}" >
           {{item}}&nbsp;&nbsp;
         </label>
           </div>
@@ -32,7 +45,7 @@
         <div class="panel-heading"><b>Algorithm</b></div>
         <div class="panel-body">
         <label data-ng-repeat="item in vm.algorithmOptions">
-		    <input type="radio" data-ng-model="vm.algorithm" value="{{item}}" data-ng-change='vm.resetGraph()'>
+		    <input type="radio" data-ng-model="vm.algorithm" value="{{item}}" >
 		    {{item}}&nbsp;&nbsp;
 		  </label>    
         </div>
@@ -41,7 +54,7 @@
         <div class="panel-heading"><b>Metric</b></div>
         <div class="panel-body">  
         <label data-ng-repeat="item in vm.metricOptions">
-		    <input type="radio" data-ng-model="vm.metric" value="{{item}}" data-ng-change='vm.resetGraph()'>
+		    <input type="radio" data-ng-model="vm.metric" value="{{item}}" >
 		    {{item}}&nbsp;&nbsp;
 		  </label>    
         </div>
@@ -50,18 +63,33 @@
         <div class="panel-heading"><b>Train/Test</b></div>
         <div class="panel-body">   
         <label data-ng-repeat="item in vm.trainTestOptions">
-		    <input type="radio" data-ng-model="vm.trainTest" value="{{item}}" data-ng-change='vm.resetGraph()'>
+		    <input type="radio" data-ng-model="vm.trainTest" value="{{item}}" >
 		    {{item}}&nbsp;&nbsp;
 		  </label>   
         </div>
-      </div>
-
-      <!--
+      </div>      <!--
 		            //Reuters 005-006 words vector with TF-IDF. Algorithm: KNN (bagging). Metric: Cosine. K=1. Train=75% Test=25%.
    		-->
     </div>
     <div class="col-md-9">
-          <svg width="960" height="500"></svg>
+          <div class="row">
+            <div>
+             <button data-ng-click="vm.addLine()" class="btn btn-primary">Add New Line</button> 
+             <button data-ng-click="vm.reset()" class="btn btn-primary">Reset</button> 
+            </div>
+            <br/>
+            <div>
+             <select name="linesSelect" data-ng-model="vm.selectedLine" data-ng-change='vm.changeLineOptions()'>
+                <option value="default">Select a line ...</option>
+                <option data-ng-repeat="line in vm.lines" value="{{$index}}">{{line.name}}</option>
+              </select>
+             <button data-ng-click="vm.saveLine()" class="btn btn-primary">Save</button>
+             <button data-ng-click="vm.deleteLine()" class="btn btn-primary">Delete</button>
+            </div>
+          </div>
+          <div class="row">
+            <svg width="960" height="500"></svg>
+          </div>
     </div>
   </div>
 

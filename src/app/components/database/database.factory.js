@@ -7,9 +7,9 @@
 
   /** @ngInject */
   function databaseFactory($log, $http) {
- // var apiHost = window.location.protocol + '//' + window.location.hostname + '/textsimilarity_dev-api';
+  var apiHost = window.location.protocol + '//' + window.location.hostname + '/textsimilarity_dev-api';
  // var apiHost = window.location.protocol + '//' + window.location.hostname + '/textsimilarity-api';
-  var apiHost = 'http://192.169.150.232/textsimilarity_dev-api';
+  //var apiHost = 'http://192.169.150.232/textsimilarity_dev-api';
    //var apiHost = 'http://192.169.150.232/textsimilarity-api'
 
     var service = {
@@ -28,13 +28,11 @@
     return service;
 
     function getDatasetRepresentations(){
-      console.log('meh!')
       return $http.get(apiHost + '/datasetrepresentation')
         .then(getDatasetRepresentationsComplete)
         .catch(getDatasetRepresentationsFailed);
 
           function getDatasetRepresentationsComplete(response) {
-            console.log(response);
             return response.data;
           }
 
@@ -45,13 +43,11 @@
     }
 
     function getExperiments(){
-      console.log('meh!')
       return $http.get(apiHost + '/experiment')
         .then(getExperimentComplete)
         .catch(getExperimentFailed);
 
           function getExperimentComplete(response) {
-            console.log(response);
             return response.data;
           }
 

@@ -26,14 +26,11 @@
     function activate() {
       databaseFactory.getProcessingItems().then(function(items){
                   vm.processingItems = items;
-                  console.log(vm.processingItems);
 
                    databaseFactory.getDatasetRepresentations().then(function(result){
                       vm.datasetRepresentations = result;
-                      console.log(vm.datasetRepresentations);
                        databaseFactory.getExperiments().then(function(exp){
                           vm.experiments = exp;
-                          console.log(vm.experiments)
                         });
 
                     });
